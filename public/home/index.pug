@@ -1,0 +1,111 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(http-equiv="X-UA-Compatible" content="IE=edge")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title My Site
+    link(rel="stylesheet", href="./index.css")
+  body
+    header
+      .icon: include ../assets/icons/menu.svg
+      h1 پنل کاربری
+      .icon: include ../assets/icons/notification.svg
+      .icon: include ../assets/icons/back.svg
+    main
+      .paper.chart
+        h2
+          .title نمودار فالورها
+          span افزایش یافته
+        .body
+          canvas
+      .paper.botConfig
+        h2
+          .title فعالیت ربات ها
+        .body
+          ul#botsList(data-key="bots", data-item="bot-item")
+            t-bot-item
+          button#addBot_btn(data-item-add) +  
+      .paper.reports
+        h2: .title گزارش فعالیت ها
+        .body
+        
+    - var id = 0
+    mixin inputText(label, key, type="text", hint)
+      .input-text(class=hint?"hint":"")
+        input(type=type, data-key=key, id="i"+id, required)  
+        label(for="i"+id++)
+          if hint
+            .show-hint.icon: include ../assets/icons/question-mark.svg
+          | #{label}:
+        .input-border-bottom
+          if type == "password"
+            .show-password.icon: include ../assets/icons/eye.svg
+          if hint
+            .hint= hint
+    - var name = ""
+    - var subject = ""
+
+    mixin times
+      +inputText("تعداد", "times", "number", `چندبار میخواهید که ${name} انجام شود`)
+    mixin dropdown(title, branch)
+      .dropdown
+        .title
+          h3= title
+          .icon: include ../assets/icons/triangle.svg
+        .body(data-branch=branch)
+          block
+    mixin keywords
+      .keywords
+        +inputText("کلمات کلیدی", "keyword", "textarea", `چه کلماتی را میخواهید در فعالیت ${name} برای پیدا کردن ${subject} جستجو شوند. `)
+        button(data-item-add) +
+        .list(data-key="keywords" data-item="keyword")
+    template#keyword
+      span(data-key="keyword") کلمه
+      button(data-item-remove) X    
+    mixin dateRange
+      .date-range
+        .label
+          .show-hint.icon: include ../assets/icons/question-mark.svg
+          | تاریخ
+        .f
+          span از
+          input(type="date")
+          span تا
+          input(type="date")
+        .hint= `${subject} از چه تاریخی تا جه تاریخی برای انجام ${name} باشد`
+    //- mixin viewRange()
+    //- mixin likesRange()
+    //- mixin commentRange()
+
+    mixin postFilters
+      +keywords
+      +dateRange
+
+    mixin configSection(activity, branch, sub)
+      - name = activity
+      - subject = sub
+      +dropdown(activity, branch)
+        +times(activity)
+        block
+    template#bot-item
+      .icon: include ../assets/icons/robot.svg
+      span بات جدید
+      span 66%
+      .icon(data-item-remove): include ../assets/icons/delete.svg
+      .config
+        +inputText("نام بات", "botName")
+        +inputText("نام کاربری", "username")
+        +inputText("رمز عبور", "password", "password")
+        +configSection("لایک پست", "likePost", "پست")
+          +postFilters
+        +configSection("کامنت ", "comment")
+        +configSection("لایک کامنت ", "likeComment")
+        +configSection(" پاسخ به کامنت", "replyComment")
+        +configSection("فالو کردن", "follow")
+        +configSection("آنفالو کردن", "unfollow")
+        //- +configSection("پیام دادن")
+        //- +configSection("پست گذاری")
+    script(src="./script.js")
+    
+    

@@ -1,3 +1,6 @@
 node_modules
 package-lock.json
+<<<<<<< HEAD
 test.js
+=======
+>>>>>>> 80631758c56a4f96436f9d4d467be526ea47d471

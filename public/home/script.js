@@ -3,7 +3,7 @@ import Chart from "chart.js/auto"
 import { chartConfig } from "./dataCenter"
 
 jss({
-  ".chart": elm => {
+  "#chart": elm => {
     const canvas = qs("canvas", elm)
     new Chart(canvas.getContext("2d"), chartConfig.config)
   },

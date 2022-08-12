@@ -7,28 +7,29 @@ html(lang="en")
     title My Site
     link(rel="stylesheet", href="./index.css")
   body
-    header
+    header.fcb
       .icon: include ../assets/icons/menu.svg
-      h1 پنل کاربری
+      h1.gr1 پنل کاربری
       .icon: include ../assets/icons/notification.svg
       .icon: include ../assets/icons/back.svg
     main
-      .paper.chart
-        h2
-          .title نمودار فالورها
-          span افزایش یافته
-        .body
-          canvas
-      .paper.botConfig
-        h2
-          .title فعالیت ربات ها
-        .body
-          ul#botsList(data-key="bots", data-item="bot-item")
-            t-bot-item
-          button#addBot_btn(data-item-add) +  
-      .paper.reports
-        h2: .title گزارش فعالیت ها
-        .body
+      section.mv2
+        div#chart
+          .fcb
+            h2 نمودار فالورها
+            span.green افزایش یافته
+          .paper
+            canvas
+        div#botConfig
+          .fcb
+            h2 فعالیت ربات ها
+          .paper
+            ul#botsList(data-key="bots", data-item="bot-item")
+              t-bot-item
+            button.floated#addBot_btn(data-item-add) +  
+        div.reports
+          h2.fcb: .title گزارش فعالیت ها
+          
         
     - var id = 0
     mixin inputText(label, key, type="text", hint)
@@ -52,13 +53,13 @@ html(lang="en")
       .dropdown
         .title
           h3= title
-          .icon: include ../assets/icons/triangle.svg
+          //- .icon: include ../assets/icons/triangle.svg
         .body(data-branch=branch)
           block
     mixin keywords
-      .keywords
+      .r21.keywords
         +inputText("کلمات کلیدی", "keyword", "textarea", `چه کلماتی را میخواهید در فعالیت ${name} برای پیدا کردن ${subject} جستجو شوند. `)
-        button(data-item-add) +
+        button.ol(data-item-add) +
         .list(data-key="keywords" data-item="keyword")
     template#keyword
       span(data-key="keyword") کلمه
@@ -89,23 +90,24 @@ html(lang="en")
         +times(activity)
         block
     template#bot-item
-      .icon: include ../assets/icons/robot.svg
-      span بات جدید
-      span 66%
-      .icon(data-item-remove): include ../assets/icons/delete.svg
-      .config
-        +inputText("نام بات", "botName")
-        +inputText("نام کاربری", "username")
-        +inputText("رمز عبور", "password", "password")
-        +configSection("لایک پست", "likePost", "پست")
-          +postFilters
-        +configSection("کامنت ", "comment")
-        +configSection("لایک کامنت ", "likeComment")
-        +configSection(" پاسخ به کامنت", "replyComment")
-        +configSection("فالو کردن", "follow")
-        +configSection("آنفالو کردن", "unfollow")
-        //- +configSection("پیام دادن")
-        //- +configSection("پست گذاری")
+      .fcb
+        .icon: include ../assets/icons/robot.svg
+        span بات جدید
+        span 66%
+        .icon(data-item-remove): include ../assets/icons/delete.svg
+        .glass-layout
+          +inputText("نام بات", "botName")
+          +inputText("نام کاربری", "username")
+          +inputText("رمز عبور", "password", "password")
+          +configSection("لایک پست", "likePost", "پست")
+            +postFilters
+          +configSection("کامنت ", "comment")
+          +configSection("لایک کامنت ", "likeComment")
+          +configSection(" پاسخ به کامنت", "replyComment")
+          +configSection("فالو کردن", "follow")
+          +configSection("آنفالو کردن", "unfollow")
+          //- +configSection("پیام دادن")
+          //- +configSection("پست گذاری")
     script(src="./script.js")
     
     
